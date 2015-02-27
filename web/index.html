@@ -15,6 +15,8 @@ and open the template in the editor.
             $("#submitGetPlayer").click(callPlayer);
             $("#submitGetPlayers").click(callPlayers);
             $("#submitGetPlayersFromWeb").click(callPlayersFromWeb);
+           $("#findeNameFromWeb").click(findeNameFromWeb);
+           $("#findeLandFromWeb").click(findeLandFromWeb);
            
             });
             
@@ -65,20 +67,23 @@ and open the template in the editor.
             
             
             function callPlayersFromWeb(){
-                
+                      $("#bodyGetPlayersFromWeb").text(" ");
+                 
                 var request = $.ajax({
                 url : "api/AllPlayerFromWeb",
                 dataType : "json",
                 type : "GET"
                  });
                  
+                 
                  request.done(function(players){
                    for (var i = 0; i < players.length; i++) {
                     var td = "<tr><td>";
                     td +=  players[i].iId +"</td><td>"+ players[i].sName+"</td><td>"+players[i].sCountryName+"</td><td><img src='"+players[i].sCountryFlag+"'/></td><td><img src='"+players[i].sCountryFlagLarge+"'/></td></tr>"; 
-                    $("#bodyGetPlayersFromWeb").append(td);
-                    }
-               
+                   
+                       $("#bodyGetPlayersFromWeb").append(td);
+                     }
+                 
                 });   
                 
                  request.fail(function( jqXHR, textStatus ) {
@@ -86,6 +91,85 @@ and open the template in the editor.
                });
                 
             }
+            
+            
+          
+                function findeNameFromWeb(){
+                 
+                 $("#bodyGetPlayersFromWeb").text(" ");
+                
+                var name = $( '#sogPlayer' ).val();
+                var request = $.ajax({
+                url : "api/AllPlayerFromWeb",
+                dataType : "json",
+                type : "GET"
+                 });
+                 
+                 
+                 request.done(function(players){
+                     var td = "Kunne ikke finde nogel";
+                     var trueFals = false;
+                   for (var i = 0; i < players.length; i++) {
+                   if( players[i].sName === name)  {  
+                        td = "<tr><td>";
+                        td +=  players[i].iId +"</td><td>"+ players[i].sName+"</td><td>"+players[i].sCountryName+"</td><td><img src='"+players[i].sCountryFlag+"'/></td><td><img src='"+players[i].sCountryFlagLarge+"'/></td></tr>"; 
+
+                           $("#bodyGetPlayersFromWeb").append(td);
+                          trueFals = true; 
+                      }
+                     
+                   }
+                   if(trueFals === false){
+                   $("#bodyGetPlayersFromWeb").html("<tr><td><b>Der blev ikke fundet nogle!!</b></td></tr>");
+                    }
+                });   
+                
+                 request.fail(function( jqXHR, textStatus ) {
+                alert( "Request failed: " + textStatus );
+               });
+                
+            }
+            
+            
+            
+            
+            function findeLandFromWeb(){
+                 
+                 $("#bodyGetPlayersFromWeb").text(" ");
+                
+                var CountryName = $( '#sogLand' ).val();
+                var request = $.ajax({
+                url : "api/AllPlayerFromWeb",
+                dataType : "json",
+                type : "GET"
+                 });
+                 
+                 
+                 request.done(function(players){
+                     var td = "Kunne ikke finde nogel";
+                     var trueFals = false;
+                   for (var i = 0; i < players.length; i++) {
+                   if( players[i].sCountryName === CountryName)  {  
+                        td = "<tr><td>";
+                        td +=  players[i].iId +"</td><td>"+ players[i].sName+"</td><td>"+players[i].sCountryName+"</td><td><img src='"+players[i].sCountryFlag+"'/></td><td><img src='"+players[i].sCountryFlagLarge+"'/></td></tr>"; 
+
+                           $("#bodyGetPlayersFromWeb").append(td);
+                          trueFals = true; 
+                      }
+                     
+                   }
+                   if(trueFals === false){
+                   $("#bodyGetPlayersFromWeb").html("<tr><td><b>Der blev ikke fundet nogle!!</b></td></tr>");
+                    }
+                });   
+                
+                 request.fail(function( jqXHR, textStatus ) {
+                alert( "Request failed: " + textStatus );
+               });
+                
+            }
+            
+            
             
             
             
@@ -132,7 +216,21 @@ and open the template in the editor.
        <button name="submitGetPlayersFromWeb" id="submitGetPlayersFromWeb" >
         Find Players from web
         </button>
-            <table class="table">
+        <br/><br/>
+        <input type="text" name="sogPlayer" id="sogPlayer" />
+        <button name="findeNameFromWeb" id="findeNameFromWeb" >
+            Find Player
+        </button>  
+        <br/><br/>
+        <input type="text" name="sogLand" id="sogLand" />
+        <button name="findeLandFromWeb" id="findeLandFromWeb" >
+            Find Country
+        </button>  
+       
+        
+        
+        
+        <table class="table">
                 <thead>
                     <tr><th>Id</th> <th>Name</th> <th>Country</th> <th>Small Flag</th> <th>Large Flag</th> </tr> 
                 </thead>

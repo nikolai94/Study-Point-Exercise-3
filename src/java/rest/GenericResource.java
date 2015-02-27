@@ -15,6 +15,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * REST Web Service
@@ -79,6 +86,38 @@ public class GenericResource {
         }
         
         return clubsJson;
+    }
+    
+    
+    
+    @Path("AllPlayerFromWeb")
+    @GET
+    @Produces("application/json")
+    public String getJsonNewPlayers()  {
+        
+        URL url;
+         String jsonStr=null;
+        try {
+            
+            url = new URL("http://footballpool.dataaccess.eu/data/info.wso/AllPlayerNames/JSON/debug?bSelected");
+            URLConnection con = url.openConnection();
+            Scanner scan = new Scanner(con.getInputStream());
+           
+            if (scan.hasNext()) {
+             jsonStr = scan.nextLine();
+            }
+            System.out.println(jsonStr);
+            scan.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+       /* Gson gson = new Gson();
+        String clubsJson = gson.toJson(arr);
+        return clubsJson;*/
+        return jsonStr;
     }
 
     /**

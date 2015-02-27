@@ -6,11 +6,15 @@ and open the template in the editor.
 -->
 <html>
     <head>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
          <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
         <script>
             
               $("document").ready(function (){ 
             $("#submitGetPlayer").click(callPlayer);
+            $("#submitGetPlayers").click(callPlayers);
+            $("#submitGetPlayersFromWeb").click(callPlayersFromWeb);
            
             });
             
@@ -34,6 +38,59 @@ and open the template in the editor.
                 alert( "Request failed: " + textStatus );
                });
             }
+            
+            
+            function callPlayers(){
+                
+                var request = $.ajax({
+                url : "api/AllPlayerNames/",
+                dataType : "json",
+                type : "GET"
+                 });
+                 
+                 request.done(function(players){
+                   for (var i = 0; i < players.length; i++) {
+                    var td = "<tr><td>";
+                    td +=  players[i].id +"</td><td>"+ players[i].name+"</td><td>"+players[i].Country+"</td></tr>"; 
+                    $("#bodyGetPlayers").append(td);
+                    }
+               
+                });   
+                
+                 request.fail(function( jqXHR, textStatus ) {
+                alert( "Request failed: " + textStatus );
+               });
+                
+            }
+            
+            
+            function callPlayersFromWeb(){
+                
+                var request = $.ajax({
+                url : "api/AllPlayerFromWeb",
+                dataType : "json",
+                type : "GET"
+                 });
+                 
+                 request.done(function(players){
+                   for (var i = 0; i < players.length; i++) {
+                    var td = "<tr><td>";
+                    td +=  players[i].iId +"</td><td>"+ players[i].sName+"</td><td>"+players[i].sCountryName+"</td><td><img src='"+players[i].sCountryFlag+"'/></td><td><img src='"+players[i].sCountryFlagLarge+"'/></td></tr>"; 
+                    $("#bodyGetPlayersFromWeb").append(td);
+                    }
+               
+                });   
+                
+                 request.fail(function( jqXHR, textStatus ) {
+                alert( "Request failed: " + textStatus );
+               });
+                
+            }
+            
+            
+            
+            
+            
         </script>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -48,15 +105,43 @@ and open the template in the editor.
         </button>
         
         <div id="PlayerInfo">
-            <!--<table style="width: 300px;">
+        </div>
+        
+        <!-- opg 4 -->
+        
+        <br/><br/><br/>
+        
+       <button name="submitGetPlayers" id="submitGetPlayers" >
+        Find Players
+        </button>
+            <table class="table">
                 <thead>
                     <tr><th>Id</th> <th>Name</th> <th>Country</th> </tr> 
                 </thead>
-                <tbody>
-                    <tr><td>test</td> <td>1</td> <td>2</td></tr> 
+                <tbody id="bodyGetPlayers">
+                  <!--  <tr><td>test</td> <td>1</td> <td>2</td></tr> -->
                 </tbody>
-            </table>-->
-        </div>
+            </table>
+        
+        
+        <!-- OPG 5 -->
+
+                    
+        <br/><br/><br/>
+        
+       <button name="submitGetPlayersFromWeb" id="submitGetPlayersFromWeb" >
+        Find Players from web
+        </button>
+            <table class="table">
+                <thead>
+                    <tr><th>Id</th> <th>Name</th> <th>Country</th> <th>Small Flag</th> <th>Large Flag</th> </tr> 
+                </thead>
+                <tbody id="bodyGetPlayersFromWeb">
+                  <!--  <tr><td>test</td> <td>1</td> <td>2</td></tr> -->
+                </tbody>
+            </table>
+        
+
         
     </body>
 </html>

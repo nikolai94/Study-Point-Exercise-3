@@ -10,9 +10,9 @@ package rest;
  * @author nikolai
  */
 public class Player {
-    int id;
-    String name;
-    String Country;
+    public int id;
+    public  String name;
+    public String Country;
 
     public Player(int id, String name, String Country) {
         this.id = id;

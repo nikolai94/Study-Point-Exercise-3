@@ -6,11 +6,57 @@ and open the template in the editor.
 -->
 <html>
     <head>
+         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+            
+              $("document").ready(function (){ 
+            $("#submitGetPlayer").click(callPlayer);
+           
+            });
+            
+            
+            function callPlayer(){
+             
+                var value = $( '#inputPlayerName' ).val();
+                 
+               var request = $.ajax({
+                url : "api/player/"+value,
+                dataType : "json",
+                type : "GET"
+                 }); 
+
+                request.done(function(player){
+                   //alert(player.name);
+                   $("#PlayerInfo").html("<b>Name:</b> "+player.name+"  <b>Country:</b>"+player.Country);
+                });            
+
+               request.fail(function( jqXHR, textStatus ) {
+                alert( "Request failed: " + textStatus );
+               });
+            }
+        </script>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>Players</div>
+        
+        <input type="text" name="inputPlayerName" id="inputPlayerName" />
+        <button type="submit" name="submitGetPlayer" id="submitGetPlayer"  >
+        Find Player
+        </button>
+        
+        <div id="PlayerInfo">
+            <!--<table style="width: 300px;">
+                <thead>
+                    <tr><th>Id</th> <th>Name</th> <th>Country</th> </tr> 
+                </thead>
+                <tbody>
+                    <tr><td>test</td> <td>1</td> <td>2</td></tr> 
+                </tbody>
+            </table>-->
+        </div>
+        
     </body>
 </html>

@@ -32,13 +32,13 @@ public class GenericResource {
      */
     public GenericResource() {
         if(arr.isEmpty()){
-            Player p = new Player(1,"James Rodríguez","test");
+            Player p = new Player(1,"James Rodríguez","Columbia");
             arr.add(p);
             Player p1 = new Player(2,"Thomas Mueller","Tyskland");
             arr.add(p1);
-            Player p2 = new Player(3,"Messi","Land1");
+            Player p2 = new Player(3,"Messi","Argentina");
             arr.add(p2);
-             Player p3 = new Player(4,"Neymar","Land2");
+             Player p3 = new Player(4,"Neymar","Brasilien");
             arr.add(p3);
              Player p4 = new Player(5,"van Persie","Holland");
             arr.add(p4);
@@ -66,6 +66,8 @@ public class GenericResource {
     @Produces("application/json")
     @Path("player/{id}")
     public String getJsonPlayer(@PathParam("id") int id) {
+        
+        
       String clubsJson ="{\"errCode\": 404, \"errMsg\" : \"No player found with the given ID\" }";
         for (int i = 0; i < arr.size(); i++) {
             if(arr.get(i).getId() == id)
@@ -73,8 +75,7 @@ public class GenericResource {
                   Gson gson = new Gson();
                   Player p = arr.get(i);
                   clubsJson = gson.toJson(p);
-
-            }    
+             }    
         }
         
         return clubsJson;

@@ -21,7 +21,7 @@ import com.google.gson.Gson;
  *
  * @author nikolai
  */
-@Path("AllPlayerNames")
+@Path("")
 public class GenericResource {
     
     @Context
@@ -53,6 +53,7 @@ public class GenericResource {
      * Retrieves representation of an instance of rest.GenericResource
      * @return an instance of java.lang.String
      */
+    @Path("AllPlayerNames")
     @GET
     @Produces("application/json")
     public String getJson() {
@@ -63,8 +64,8 @@ public class GenericResource {
     
     @GET
     @Produces("application/json")
-    @Path("/{id}")
-    public String getJsonPlayer(@PathParam("player") int id) {
+    @Path("player/{id}")
+    public String getJsonPlayer(@PathParam("id") int id) {
       String clubsJson ="{\"errCode\": 404, \"errMsg\" : \"No player found with the given ID\" }";
         for (int i = 0; i < arr.size(); i++) {
             if(arr.get(i).getId() == id)
